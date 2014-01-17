@@ -1,0 +1,184 @@
+<html>
+<head>
+  <title>EaselJS Demo</title>
+  <script src="easeljs-0.7.1.min.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="1024" height="768"></canvas>
+  <div>STUFF!</div>
+  <script>
+
+    var currentContainer;
+    var canvas = document.getElementById('canvas');
+    var stage = new createjs.Stage(canvas);
+
+    function changeSceneByName(name){
+      changeScene(scenes[name]);
+    }
+
+    function changeScene(container){
+      stage.removeChild(currentContainer);
+      stage.addChild(container);
+      currentContainer = container;
+      stage.update();
+    }
+    
+    function makeShittyButton(x, y, width, height, color, text, textcolor){
+      var buttonContainer = new createjs.Container();
+      var buttonShape = new createjs.Shape();
+      buttonShape.graphics.beginFill(color).drawRoundRect(x, y, width, height, 10);
+      var buttonText = new createjs.Text(text, "20px Comic Sans",  textcolor);
+      buttonText.x = x+width/2;
+      buttonText.y = y+height/2;
+      buttonText.textAlign = "center";
+      buttonContainer.addChild(buttonShape);
+      buttonContainer.addChild(buttonText);
+      return buttonContainer;
+    }
+    
+    //returns x,y,width,height for menu buttons fit to a certain num.ofbuttons,buttongap,width,height
+    function howToMakeMenuButtons(numButtons, buttonGap, x, y, width, height){
+      var bheight = (height - (numButtons-1)*buttonGap)/numButtons;
+      var out = new Array();
+      
+      for(var i=0;i<numButtons;++i){
+        out[i] = new Object();
+        out[i].x = x;
+        out[i].y = y+i*bheight+(i-1)*buttonGap;
+        out[i].width = width;
+        out[i].height = bheight;
+      }
+      
+      return out;
+    }
+    
+    function makeScene(type){
+    
+      var container = new createjs.Container();
+      
+      //this is mostly just copy-pasted
+      
+      switch(type){
+        case "menu":
+          //menu
+          var how2 = howToMakeMenuButtons(5, 15, 100, 100, 1024-200, 768-200);
+          
+          for(var i=0;i<5;++i)
+          {
+            var button1 = makeShittyButton(how2[i].x,how2[i].y,how2[i].width,how2[i].height,'rgba('+(255/5)*i+',0,0,255)',"click me",'rgba(255,255,255,255)');
+            button1.addEventListener("click", (function(j){ 
+              return function()
+              {
+                changeSceneByName("scene"+j);
+              }
+            }(i))
+            );
+            container.addChild(button1);
+          }
+          break;
+        case "help":
+          //help
+          break;
+        case "play":
+          //play
+          break;
+        case "scene0":
+          var how2 = howToMakeMenuButtons(5, 15, 100, 100, 1024-200, 768-200);
+          
+          for(var i=0;i<5;++i)
+          {
+            var button1 = makeShittyButton(how2[i].x,how2[i].y,how2[i].width,how2[i].height,'rgba(0,'+(255/5)*i+',0,255)',"click me",'rgba(255,255,255,255)');
+            button1.addEventListener("click", (function(j){ 
+              return function()
+              {
+                changeSceneByName("scene"+j);
+              }
+            }(i))
+            );
+            container.addChild(button1);
+          }
+          break;
+        case "scene1":
+          var how2 = howToMakeMenuButtons(5, 15, 100, 100, 1024-200, 768-200);
+          
+          for(var i=0;i<5;++i)
+          {
+            var button1 = makeShittyButton(how2[i].x,how2[i].y,how2[i].width,how2[i].height,'rgba(0,0,'+(255/5)*i+',255)',"click me",'rgba(255,255,255,255)');
+            button1.addEventListener("click", (function(j){ 
+              return function()
+              {
+                changeSceneByName("scene"+j);
+              }
+            }(i))
+            );
+            container.addChild(button1);
+          }
+          break;
+        case "scene2":
+          var how2 = howToMakeMenuButtons(5, 15, 100, 100, 1024-200, 768-200);
+          
+          for(var i=0;i<5;++i)
+          {
+            var button1 = makeShittyButton(how2[i].x,how2[i].y,how2[i].width,how2[i].height,'rgba('+(255/5)*i+',0,'+(255/5)*i+',255)',"click me",'rgba(255,255,255,255)');
+            button1.addEventListener("click", (function(j){ 
+              return function()
+              {
+                changeSceneByName("scene"+j);
+              }
+            }(i))
+            );
+            container.addChild(button1);
+          }
+          break;
+        case "scene3":
+          var how2 = howToMakeMenuButtons(5, 15, 100, 100, 1024-200, 768-200);
+          
+          for(var i=0;i<5;++i)
+          {
+            var button1 = makeShittyButton(how2[i].x,how2[i].y,how2[i].width,how2[i].height,'rgba(0,'+(255/5)*i+','+(255/5)*i+',255)',"click me",'rgba(255,255,255,255)');
+            button1.addEventListener("click", (function(j){ 
+              return function()
+              {
+                changeSceneByName("scene"+j);
+              }
+            }(i))
+            );
+            container.addChild(button1);
+          }
+          break;
+        case "scene4":
+          var how2 = howToMakeMenuButtons(5, 15, 100, 100, 1024-200, 768-200);
+          
+          for(var i=0;i<5;++i)
+          {
+            var button1 = makeShittyButton(how2[i].x,how2[i].y,how2[i].width,how2[i].height,'rgba('+(255/5)*i+','+(255/5)*i+',0,255)',"click me",'rgba(255,255,255,255)');
+            button1.addEventListener("click", (function(j){ 
+              return function()
+              {
+                changeSceneByName("scene"+j);
+              }
+            }(i))
+            );
+            container.addChild(button1);
+          }
+          break;
+        
+      }
+      
+      return container;
+    }
+
+    var scenes = {
+      menu: makeScene("menu"),
+      scene0: makeScene("scene0"),
+      scene1: makeScene("scene1"),
+      scene2: makeScene("scene2"),
+      scene3: makeScene("scene3"),
+      scene4: makeScene("scene4")
+    }
+
+    changeSceneByName("menu");
+
+  </script>
+</body>
+</html>
