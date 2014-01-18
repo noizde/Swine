@@ -3,6 +3,7 @@
   <title>EaselJS Demo</title>
   <script src="..\Dependencies\CreateJS\easeljs-0.7.1.min.js"></script>
   <script src="..\Dependencies\CreateJS\preloadjs-0.4.1.min.js"></script>
+  <script src="alternative.js"></script>
 </head>
 <body>
   <canvas id="canvas" width="1024" height="768"></canvas>
@@ -82,13 +83,10 @@
     
     
     //preloading 
+    
     var queue = new createjs.LoadQueue(false);
-    
+    initializeManifest();
     queue.on("complete", handleComplete, this);
-    
-    queue.loadFile({id:"menuBackground", src:getAssetPath("harry menu.png")}, false);
-    queue.loadFile({id:"menuButton", src:getAssetPath("harry menu title.png")}, false);
-    queue.load();
     
   </script>
 </body>
