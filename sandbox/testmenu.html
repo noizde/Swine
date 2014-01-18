@@ -44,12 +44,23 @@
         case "menu":
           
           var background = getBitmapAsset("menuBackground");
-          
           container.addChild(background);
+          
+          var button = getBitmapAsset("menuButton");
+          button.x = 628;
+          container.addChild(button);
+          
+          button.addEventListener("click", (function(){
+            changeSceneByName("help");
+          }));
           
           break;
         case "help":
           //help
+          
+          var helpText = new createjs.Text("you don't need my help");
+          container.addChild(helpText);
+          
           break;
         case "play":
           //play
@@ -76,6 +87,7 @@
     queue.on("complete", handleComplete, this);
     
     queue.loadFile({id:"menuBackground", src:getAssetPath("harry menu.png")}, false);
+    queue.loadFile({id:"menuButton", src:getAssetPath("harry menu title.png")}, false);
     queue.load();
     
   </script>
