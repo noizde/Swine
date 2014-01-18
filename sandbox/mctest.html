@@ -1,0 +1,62 @@
+<html>
+<head>
+  <title>EaselJS Demo</title>
+  <script src="..\Dependencies\CreateJS\tweenjs-0.5.1.min.js"></script>
+  <script src="..\Dependencies\CreateJS\easeljs-0.7.1.min.js"></script>
+  <script src="..\Dependencies\CreateJS\movieclip-0.7.1.min.js"></script>
+  <script src="..\Dependencies\CreateJS\preloadjs-0.4.1.min.js"></script>
+  <script src="alternative.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="1024" height="768"></canvas>
+  <div>STUFF!</div>
+  <script>
+    
+    var queue = new createjs.LoadQueue(false);
+    initializeManifest();
+    queue.on("complete", handleComplete, this);
+    
+    
+    function handleComplete(event)
+    {
+      
+      var stage = new createjs.Stage("canvas");
+      createjs.Ticker.addEventListener("tick", stage);
+      
+      var mc = new createjs.MovieClip(null, 0, false, {one:0, two:15, three:30, four:51});
+      stage.addChild(mc);
+      stage.enableMouseOver(30);
+      
+      /*var child1 = new createjs.Shape(
+        new createjs.Graphics().beginFill("#999999")
+            .drawCircle(30,30,30));
+      var child2 = new createjs.Shape(
+        new createjs.Graphics().beginFill("#5a9cfb")
+            .drawCircle(30,30,30));*/
+            
+      var child2 = new createjs.Bitmap(queue.getResult("menuButton"));
+      var child1 = new createjs.Bitmap(queue.getResult("menuButton"));
+      
+      mc.timeline.addTween(
+        createjs.Tween.get(child1,{loop:false})
+            .to({x:0}).to({x:60}, 50).to({x:0}, 50));
+      mc.timeline.addTween(
+        createjs.Tween.get(child2,{loop:false})
+            .to({x:60}).to({x:0}, 50).to({x:60}, 50));
+            
+            
+      mc.timeline.addTween(
+        createjs.Tween.get(child1,{loop:true})
+            .to({y:0}).to({y:60}, 50).to({y:0}, 50));
+      mc.timeline.addTween(
+        createjs.Tween.get(child2,{loop:true})
+            .to({y:60}).to({y:0}, 50).to({y:60}, 50));
+      
+      mc.gotoAndPlay("two");
+      
+      var helper = new createjs.ButtonHelper(mc, "one", "two", "three", true, helper, "four");
+    }
+    
+  </script>
+</body>
+</html>

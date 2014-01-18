@@ -1,7 +1,9 @@
 <html>
 <head>
   <title>EaselJS Demo</title>
+  <script src="..\Dependencies\CreateJS\tweenjs-0.5.1.min.js"></script>
   <script src="..\Dependencies\CreateJS\easeljs-0.7.1.min.js"></script>
+  <script src="..\Dependencies\CreateJS\movieclip-0.7.1.min.js"></script>
   <script src="..\Dependencies\CreateJS\preloadjs-0.4.1.min.js"></script>
   <script src="alternative.js"></script>
 </head>
@@ -14,6 +16,8 @@
     var currentContainer;
     var canvas = document.getElementById('canvas');
     var stage = new createjs.Stage(canvas);
+    stage.enableMouseOver(30);
+    createjs.Ticker.addEventListener("tick", stage);
 
     function changeSceneByName(name){
       changeScene(scenes[name]);
@@ -47,9 +51,14 @@
           var background = getBitmapAsset("menuBackground");
           container.addChild(background);
           
+          var mcButton = new createjs.MovieClip(null, 0, false, {out:0, over: 100, on:101, hit:102});
           var button = getBitmapAsset("menuButton");
-          button.x = 628;
-          container.addChild(button);
+          mcButton.timeline.addTween(
+            createjs.Tween.get(button, {loop:true})
+              .to({x:628, y:0}).to({y:50}, 50).to({y:0},50));
+          mcButton.gotoAndPlay("out");
+          
+          container.addChild(mcButton);
           
           button.addEventListener("click", (function(){
             changeSceneByName("help");
@@ -59,8 +68,10 @@
         case "help":
           //help
           
-          var helpText = new createjs.Text("you don't need my help");
+          var helpText = new createjs.Text("you don't need my help", "20px Comic Sans", "rgb(0,0,0)");
           container.addChild(helpText);
+          helpText.x = 100;
+          helpText.y = 100;
           
           break;
         case "play":
@@ -76,7 +87,9 @@
     
     function handleComplete(event){
       scenes = {
-        menu: makeScene("menu")
+        menu: makeScene("menu"),
+        help: makeScene("help"),
+        play: makeScene("play")
       };
       changeSceneByName("menu");
     }
