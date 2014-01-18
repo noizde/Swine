@@ -1,0 +1,83 @@
+<html>
+<head>
+  <title>EaselJS Demo</title>
+  <script src="..\Dependencies\CreateJS\easeljs-0.7.1.min.js"></script>
+  <script src="..\Dependencies\CreateJS\preloadjs-0.4.1.min.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="1024" height="768"></canvas>
+  <div>STUFF!</div>
+  <script>
+    
+    
+    var currentContainer;
+    var canvas = document.getElementById('canvas');
+    var stage = new createjs.Stage(canvas);
+
+    function changeSceneByName(name){
+      changeScene(scenes[name]);
+    }
+
+    function changeScene(container){
+      stage.removeChild(currentContainer);
+      stage.addChild(container);
+      currentContainer = container;
+      stage.update();
+    }
+    
+    function getAssetPath(assetPath){
+      return "..\\Assets\\"+assetPath;
+    }
+    
+    function getBitmapAsset(assetName){
+      var b = new createjs.Bitmap(queue.getResult(assetName));
+      b.x = 0;
+      b.y = 0;
+      return b;
+    }
+    
+    function makeScene(type){
+    
+      var container = new createjs.Container();
+            
+      switch(type){
+        case "menu":
+          
+          var background = getBitmapAsset("menuBackground");
+          
+          container.addChild(background);
+          
+          break;
+        case "help":
+          //help
+          break;
+        case "play":
+          //play
+          break;
+        
+      }
+      
+      return container;
+    }
+
+    var scenes;
+    
+    function handleComplete(event){
+      scenes = {
+        menu: makeScene("menu")
+      };
+      changeSceneByName("menu");
+    }
+    
+    
+    //preloading 
+    var queue = new createjs.LoadQueue(false);
+    
+    queue.on("complete", handleComplete, this);
+    
+    queue.loadFile({id:"menuBackground", src:getAssetPath("harry menu.png")}, false);
+    queue.load();
+    
+  </script>
+</body>
+</html>
