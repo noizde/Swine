@@ -6,6 +6,7 @@
   <script src="..\Dependencies\CreateJS\movieclip-0.7.1.min.js"></script>
   <script src="..\Dependencies\CreateJS\preloadjs-0.4.1.min.js"></script>
   <script src="alternative.js"></script>
+  <script src="mouse.js"></script>
 </head>
 <body>
   <canvas id="canvas" width="1024" height="768"></canvas>
@@ -41,6 +42,8 @@
       return b;
     }
     
+    var bhelper_;
+    
     function makeScene(type){
     
       var container = new createjs.Container();
@@ -51,11 +54,12 @@
           var background = getBitmapAsset("menuBackground");
           container.addChild(background);
           
-          var mcButton = new createjs.MovieClip(null, 0, false, {out:0, over: 100, on:101, hit:102});
+          var mcButton = new createjs.MovieClip(null, 0, true, {out:0});
           var button = getBitmapAsset("menuButton");
+              
           mcButton.timeline.addTween(
             createjs.Tween.get(button, {loop:true})
-              .to({x:628, y:0}).to({y:50}, 50).to({y:0},50));
+              .to({x:628, y:0}).to({y:10}, 10).to({y:0},10));
           mcButton.gotoAndPlay("out");
           
           container.addChild(mcButton);
@@ -63,6 +67,10 @@
           button.addEventListener("click", (function(){
             changeSceneByName("help");
           }));
+          
+          button.addEventListener("mouseover", effectMouseover);
+          button.addEventListener("mousedown", effectMousedown);
+          button.addEventListener("mouseout", effectMouseout);
           
           break;
         case "help":
