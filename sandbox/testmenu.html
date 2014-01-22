@@ -42,6 +42,20 @@
       return b;
     }
     
+	var mouseX, mouseY;
+	
+	//input for ever
+	function eventMouseMove(event){
+		mouseX = event.stageX;
+		mouseY = event.stageY;
+	}
+	
+	function testStageGameLoop(event){
+		var keeper = currentContainer["keeper"];
+		keeper.x = mouseX;
+		keeper.y = mouseY;
+	}
+	
     var bhelper_;
     
     function makeScene(type){
@@ -65,7 +79,7 @@
           container.addChild(mcButton);
           
           button.addEventListener("click", (function(){
-            changeSceneByName("help");
+            changeSceneByName("play");
           }));
           
           button.addEventListener("mouseover", effectMouseover);
@@ -84,6 +98,17 @@
           break;
         case "play":
           //play
+		  
+		  var keeper = getBitmapAsset("menuButton");
+		  
+		  container.addChild(keeper);
+		  container["keeper"] = keeper;
+		  
+		  container.addEventListener("tick", testStageGameLoop);
+		  
+		  stage.addEventListener("stagemousemove", eventMouseMove);
+			
+		  
           break;
         
       }
