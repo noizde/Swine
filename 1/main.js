@@ -69,12 +69,16 @@ window.onload = function(){
         break;
       case "help":
         //help
-        
-        var helpText = new createjs.Text("GO BAAAAACK", "20px Comic Sans", "rgb(0,0,0)");
+        var helpText = new createjs.Text("THESE ARE CONTROLS.", "20px Comic Sans", "rgb(0,0,0)");
         container.addChild(helpText);
         helpText.x = 100;
         helpText.y = 100;
-        helpText.addEventListener("click", (function(){
+        
+        var backText = new createjs.Text("GO BAAAAACK", "20px Comic Sans", "rgb(0,0,0)");
+        container.addChild(backText);
+        backText.x = 100;
+        backText.y = 200;
+        backText.addEventListener("click", (function(){
           changeSceneByName("menu");
         }));
         
