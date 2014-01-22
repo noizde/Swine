@@ -4,9 +4,23 @@ window.onload = function(){
   var stage = new createjs.Stage(canvas);
   var effects = Effects(stage);
 
+  var queue = new createjs.LoadQueue(false);
+  
+  var preloader = Preloader(queue);
+  var assets = Assets(queue);
+
   stage.enableMouseOver(30);
 
   createjs.Ticker.addEventListener("tick", stage);
+
+  var input = {
+    mouse: {}
+  };
+
+  stage.addEventListener("stagemousemove", function(event){
+    input.mouse.x = event.stageX;
+    input.mouse.y = event.stageY;
+  });
 
   function changeSceneByName(name){
     changeScene(scenes[name]);
@@ -19,17 +33,6 @@ window.onload = function(){
     stage.update();
   }
 
-  function getAssetPath(assetPath){
-    return "..\\Assets\\"+assetPath;
-  }
-
-  function getBitmapAsset(assetName){
-    var b = new createjs.Bitmap(queue.getResult(assetName));
-    b.x = 0;
-    b.y = 0;
-    return b;
-  }
-
   function makeScene(type){
 
     var container = new createjs.Container();
@@ -37,11 +40,11 @@ window.onload = function(){
     switch(type){
       case "menu":
         
-        var background = getBitmapAsset("menuBackground");
+        var background = assets.getBitmap("menuBackground");
         container.addChild(background);
         
         var mcButton = new createjs.MovieClip(null, 0, true, {out:0});
-        var button = getBitmapAsset("menuButton");
+        var button = assets.getBitmap("menuButton");
             
         mcButton.timeline.addTween(
           createjs.Tween.get(button, {loop:true})
@@ -84,6 +87,10 @@ window.onload = function(){
         
         break;
       case "play":
+
+        var controller = KeeperGame(input, container, assets);
+        controller.initialize();
+
         var placeholderText = new createjs.Text("pretend you are having fun", "20px Comic Sans", "rgb(0,0,0)");
         container.addChild(placeholderText);
         placeholderText.x = 100;
@@ -111,10 +118,7 @@ window.onload = function(){
 
 
   //preloading 
-
-  var queue = new createjs.LoadQueue(false);
   
-  var preloader = Preloader(queue);
   preloader.initializeManifest();
   queue.on("complete", handleComplete, this);
 

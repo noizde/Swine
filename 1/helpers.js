@@ -37,3 +37,17 @@ function Effects(stage){
     }
   }
 }
+
+function Assets(queue){
+  return {
+    getPath: function(assetPath){
+      return "..\\Assets\\"+assetPath;
+    },
+    getBitmap: function(assetName){
+      var b = new createjs.Bitmap(queue.getResult(assetName));
+      b.x = 0;
+      b.y = 0;
+      return b;
+    }
+  }
+}
