@@ -51,6 +51,14 @@ window.onload = function(){
         container.addChild(mcButton);
         
         button.addEventListener("click", (function(){
+          changeSceneByName("play");
+        }));
+
+        var helpText = new createjs.Text("HALP PLZ", "20px Comic Sans", "rgb(0,0,0)");
+        container.addChild(helpText);
+        helpText.x = 750;
+        helpText.y = 400;
+        helpText.addEventListener("click", (function(){
           changeSceneByName("help");
         }));
         
@@ -62,7 +70,7 @@ window.onload = function(){
       case "help":
         //help
         
-        var helpText = new createjs.Text("you don't need my help", "20px Comic Sans", "rgb(0,0,0)");
+        var helpText = new createjs.Text("GO BAAAAACK", "20px Comic Sans", "rgb(0,0,0)");
         container.addChild(helpText);
         helpText.x = 100;
         helpText.y = 100;
@@ -72,7 +80,13 @@ window.onload = function(){
         
         break;
       case "play":
-        //play
+        var placeholderText = new createjs.Text("pretend you are having fun", "20px Comic Sans", "rgb(0,0,0)");
+        container.addChild(placeholderText);
+        placeholderText.x = 100;
+        placeholderText.y = 100;
+        placeholderText.addEventListener("click", (function(){
+          changeSceneByName("menu");
+        }));
         break;
       
     }
@@ -99,6 +113,5 @@ window.onload = function(){
   var preloader = Preloader(queue);
   preloader.initializeManifest();
   queue.on("complete", handleComplete, this);
-
 
 }
